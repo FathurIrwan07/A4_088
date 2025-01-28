@@ -13,10 +13,6 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface JenisPropertiService {
-    @Headers(
-        "Accept: application/json",
-        "Content-Type: application/json"
-    )
 
 
     @GET("jenisproperti")
@@ -26,12 +22,12 @@ interface JenisPropertiService {
     suspend fun insertJenis(@Body jenisProperti: JenisProperti)
 
 
-    @GET("{jenisproperti/id_jenis}")
-    suspend fun getJenisById(@Path("{id_jenis}") id: Int): JenisPropertiResponseDetail
+    @GET("jenisproperti/{id_jenis}")
+    suspend fun getJenisById(@Path("id_jenis") id: Int): JenisPropertiResponseDetail
 
-    @PUT("{jenisproperti/id_jenis}")
-    suspend fun updateJenis(@Path("{id_jenis}") id: Int, @Body jenisProperti: JenisProperti)
+    @PUT("jenisproperti/{id_jenis}")
+    suspend fun updateJenis(@Path("id_jenis") id: Int, @Body jenisProperti: JenisProperti)
 
-    @DELETE("{jenisproperti/id_jenis}")
-    suspend fun deleteJenis(@Path("{id_jenis}") id: Int): Response<Void>
+    @DELETE("jenisproperti/{id_jenis}")
+    suspend fun deleteJenis(@Path("id_jenis") id: Int): Response<Void>
 }

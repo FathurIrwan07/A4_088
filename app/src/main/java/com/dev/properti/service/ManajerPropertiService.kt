@@ -14,11 +14,6 @@ import retrofit2.http.Path
 
 interface ManajerPropertiService {
 
-    @Headers(
-        "Accept: application/json",
-        "Content-Type: application/json"
-    )
-
 
     @GET("manajerproperti")
     suspend fun getAllManajer(): ManajerPropertiResponse
@@ -28,12 +23,12 @@ interface ManajerPropertiService {
 
 
     @GET("manajerproperti/{id_manajer}")
-    suspend fun getManajerById(@Path("{id_manajer}") id: Int): ManajerPropertiResponseDetail
+    suspend fun getManajerById(@Path("id_manajer") id: Int): ManajerPropertiResponseDetail
 
     @PUT("manajerproperti/{id_manajer}")
-    suspend fun updateManajer(@Path("{id_manajer}") id: Int, @Body manajerProperti: ManajerProperti)
+    suspend fun updateManajer(@Path("id_manajer") id: Int, @Body manajerProperti: ManajerProperti)
 
-    @DELETE("{manajerproperti/{id}")
-    suspend fun deleteManajer(@Path("{id_manajer}") id: Int): Response<Void>
+    @DELETE("manajerproperti/{id_manajer}")
+    suspend fun deleteManajer(@Path("id_manajer") id: Int): Response<Void>
 
 }
