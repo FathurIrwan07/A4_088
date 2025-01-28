@@ -1,7 +1,12 @@
 package com.dev.properti.repository
 
+import android.net.http.HttpException
+import android.os.Build
+import androidx.annotation.RequiresExtension
 import com.dev.properti.model.Pemilik
 import com.dev.properti.model.PemilikResponse
+import com.dev.properti.model.PemilikResponseDetail
+import com.dev.properti.model.PropertiResponseDetail
 import com.dev.properti.service.PemilikService
 import java.io.IOException
 
@@ -10,7 +15,7 @@ interface PemilikRepository{
 
     suspend fun getAllPemilik(): PemilikResponse
 
-    suspend fun getPemilikById(id_pemilik: Int): Pemilik
+    suspend fun getPemilikById(id_pemilik: Int): PemilikResponseDetail
 
     suspend fun updatePemilik(id_pemilik: Int, pemilik: Pemilik)
 
@@ -54,11 +59,15 @@ class NetworkPemilikRepository(
         }
     }
 
-    override suspend fun getPemilikById(id: Int): Pemilik {
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+    override suspend fun getPemilikById(id_pemilik: Int): PemilikResponseDetail {
         return try {
-            pemilikApiService.getPemilikById(id).data
+            pemilikApiService.getPemilikById(id_pemilik)
         } catch (e: Exception) {
-            throw IOException("Failed to fetch pemilik by id", e)
+            throw IOException("Failed to fetch manajer by id", e)
+        }
+        catch (o: HttpException){
+            throw HttpException("Failed to fetch manajer by id",o)
         }
     }
 

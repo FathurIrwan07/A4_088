@@ -22,7 +22,7 @@ class UpdatePemilikViewModel(
     init {
         viewModelScope.launch {
             val pemilik = pemilikRepository.getPemilikById(_id_pemilik)
-            uiState = InsertPemilikUiState(insertPemilikUiEvent = pemilik.toInsertPemilikUiEvent())
+            uiState = InsertPemilikUiState(insertPemilikUiEvent = pemilik.data.toInsertPemilikUiEvent())
         }
     }
 

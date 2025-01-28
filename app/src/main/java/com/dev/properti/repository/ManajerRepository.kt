@@ -1,7 +1,11 @@
 package com.dev.properti.repository
 
+import android.net.http.HttpException
+import android.os.Build
+import androidx.annotation.RequiresExtension
 import com.dev.properti.model.ManajerProperti
 import com.dev.properti.model.ManajerPropertiResponse
+import com.dev.properti.model.ManajerPropertiResponseDetail
 import com.dev.properti.service.ManajerPropertiService
 import java.io.IOException
 
@@ -10,7 +14,7 @@ interface ManajerRepository{
 
     suspend fun getAllManajer(): ManajerPropertiResponse
 
-    suspend fun getManajerById(id_manajer: Int): ManajerProperti
+    suspend fun getManajerById(id_manajer: Int): ManajerPropertiResponseDetail
 
     suspend fun updateManajer(id_manajer: Int, manajerProperti: ManajerProperti)
 
@@ -52,11 +56,15 @@ class NetworkManajerRepository(
         }
     }
 
-    override suspend fun getManajerById(id: Int): ManajerProperti {
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+    override suspend fun getManajerById(id_manajer: Int): ManajerPropertiResponseDetail {
         return try {
-            manajerApiService.getManajerById(id).data
+            manajerApiService.getManajerById(id_manajer)
         } catch (e: Exception) {
-            throw IOException("Failed to fetch pemilik by id", e)
+            throw IOException("Failed to fetch manajer by id", e)
+        }
+        catch (o: HttpException){
+            throw HttpException("Failed to fetch manajer by id",o)
         }
     }
 

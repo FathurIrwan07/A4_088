@@ -1,8 +1,12 @@
 package com.dev.properti.repository
 
+import android.net.http.HttpException
+import android.os.Build
+import androidx.annotation.RequiresExtension
 import com.dev.properti.model.JenisProperti
 import com.dev.properti.model.JenisPropertiResponse
 import com.dev.properti.model.JenisPropertiResponseDetail
+import com.dev.properti.model.ManajerPropertiResponseDetail
 import com.dev.properti.model.Pemilik
 import com.dev.properti.model.PemilikResponse
 import com.dev.properti.service.JenisPropertiService
@@ -13,7 +17,7 @@ interface JenisRepository {
 
     suspend fun getAllJenis(): JenisPropertiResponse
 
-    suspend fun getJenisById(id_jenis: Int): JenisProperti
+    suspend fun getJenisById(id_jenis: Int): JenisPropertiResponseDetail
 
     suspend fun updateJenis(id_jenis: Int, jenisProperti: JenisProperti)
 
@@ -55,11 +59,15 @@ class NetworkJenisRepository(
         }
     }
 
-    override suspend fun getJenisById(id: Int): JenisProperti {
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+    override suspend fun getJenisById(id_jenis: Int): JenisPropertiResponseDetail {
         return try {
-            jenisApiService.getJenisById(id).data
+            jenisApiService.getJenisById(id_jenis)
         } catch (e: Exception) {
-            throw IOException("Failed to fetch jenis by id", e)
+            throw IOException("Failed to fetch manajer by id", e)
+        }
+        catch (o: HttpException){
+            throw HttpException("Failed to fetch manajer by id",o)
         }
     }
 

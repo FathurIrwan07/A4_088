@@ -20,6 +20,5 @@ data class ManajerPropertiResponse(
 @Serializable
 data class ManajerPropertiResponseDetail(
     val status: Boolean,
-    val message: String,
     val data: ManajerProperti
 )

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.dev.properti.model.Pemilik
 import com.dev.properti.repository.PemilikRepository
 import com.dev.properti.ui.view.pemilik.DestinasiDetailPemilik
+import com.dev.properti.ui.viewmodel.manajerproperti.DetailManajerUiState
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -38,13 +39,14 @@ class DetailPemilikViewModel(
         viewModelScope.launch {
             pemilikDetailState = DetailPemilikUiState.Loading
             try {
-                val pemilik = pemilikRepository.getPemilikById(_id_pemilik)
-                pemilikDetailState = DetailPemilikUiState.Success(pemilik)
+                val response = pemilikRepository.getPemilikById(_id_pemilik)
+                println("Respons dari backend: $response") // Tambahkan log
+                pemilikDetailState = DetailPemilikUiState.Success(response.data)
             } catch (e: IOException) {
-                // Tangani error jaringan atau masalah I/O
+                println("Error jaringan: ${e.message}") // Log error
                 pemilikDetailState = DetailPemilikUiState.Error
             } catch (e: HttpException) {
-                // Tangani error terkait HTTP (misalnya 404, 500, dll)
+                println("Error HTTP: ${e.code()} - ${e.message()}") // Log error HTTP
                 pemilikDetailState = DetailPemilikUiState.Error
             }
         }

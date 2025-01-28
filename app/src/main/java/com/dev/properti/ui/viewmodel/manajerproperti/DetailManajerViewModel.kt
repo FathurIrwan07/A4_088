@@ -38,15 +38,17 @@ class DetailManajerViewModel(
         viewModelScope.launch {
             mjrDetailState = DetailManajerUiState.Loading
             try {
-                val manajerProperti = manajerRepository.getManajerById(_id_manajer)
-                mjrDetailState = DetailManajerUiState.Success(manajerProperti)
+                val response = manajerRepository.getManajerById(_id_manajer)
+                println("Respons dari backend: $response") // Tambahkan log
+                mjrDetailState = DetailManajerUiState.Success(response.data)
             } catch (e: IOException) {
-                // Tangani error jaringan atau masalah I/O
+                println("Error jaringan: ${e.message}") // Log error
                 mjrDetailState = DetailManajerUiState.Error
             } catch (e: HttpException) {
-                // Tangani error terkait HTTP (misalnya 404, 500, dll)
+                println("Error HTTP: ${e.code()} - ${e.message()}") // Log error HTTP
                 mjrDetailState = DetailManajerUiState.Error
             }
         }
     }
+
 }
